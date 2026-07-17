@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "MIRAI.MAMORU",
+    "slug": "mirai-mamoru",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.miraimamoru.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "監視カメラとして使用するためカメラへのアクセスが必要です。",
+        "NSMicrophoneUsageDescription": "音声入力のためマイクへのアクセスが必要です。"
+      }
+    },
+    "android": {
+      "package": "com.miraimamoru.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#000000"
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.VIBRATE"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "監視カメラとして使用するためカメラへのアクセスが必要です。",
+          "microphonePermission": "音声入力のためマイクへのアクセスが必要です。"
+        }
+      ],
+      "expo-notifications"
+    ]
+  }
+}

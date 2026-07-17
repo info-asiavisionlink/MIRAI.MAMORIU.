@@ -1,0 +1,24 @@
+# 環境変数
+.env
+.env.local
+backend/.env
+
+# Node.js
+node_modules/
+dist/
+*.js.map
+
+# Expo
+app/.expo/
+app/ios/
+app/android/
+*.jks
+*.keystore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ログ
+*.log
+npm-debug.log*
