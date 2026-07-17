@@ -1,8 +1,8 @@
-import sharp from 'sharp';
+import Jimp from 'jimp';
 
 const THUMBNAIL_SIZE = 64;
-const MOTION_THRESHOLD = 0.04; // 4% pixel change
-const PIXEL_DIFF_THRESHOLD = 30;  // out of 255
+const MOTION_THRESHOLD = 0.04;
+const PIXEL_DIFF_THRESHOLD = 30;
 
 export interface MotionResult {
   motionDetected: boolean;
@@ -13,25 +13,22 @@ export async function detectMotion(
   previousFrameBase64: string,
   currentFrameBase64: string
 ): Promise<MotionResult> {
-  const [prevBuffer, currBuffer] = await Promise.all([
-    sharp(Buffer.from(previousFrameBase64, 'base64'))
-      .resize(THUMBNAIL_SIZE, THUMBNAIL_SIZE, { fit: 'fill' })
-      .grayscale()
-      .raw()
-      .toBuffer(),
-    sharp(Buffer.from(currentFrameBase64, 'base64'))
-      .resize(THUMBNAIL_SIZE, THUMBNAIL_SIZE, { fit: 'fill' })
-      .grayscale()
-      .raw()
-      .toBuffer(),
+  const [prev, curr] = await Promise.all([
+    Jimp.read(Buffer.from(previousFrameBase64, 'base64')),
+    Jimp.read(Buffer.from(currentFrameBase64, 'base64')),
   ]);
+
+  prev.resize(THUMBNAIL_SIZE, THUMBNAIL_SIZE).greyscale();
+  curr.resize(THUMBNAIL_SIZE, THUMBNAIL_SIZE).greyscale();
 
   const totalPixels = THUMBNAIL_SIZE * THUMBNAIL_SIZE;
   let changedPixels = 0;
 
-  for (let i = 0; i < totalPixels; i++) {
-    if (Math.abs(prevBuffer[i] - currBuffer[i]) > PIXEL_DIFF_THRESHOLD) {
-      changedPixels++;
+  for (let y = 0; y < THUMBNAIL_SIZE; y++) {
+    for (let x = 0; x < THUMBNAIL_SIZE; x++) {
+      const p1 = Jimp.intToRGBA(prev.getPixelColor(x, y));
+      const p2 = Jimp.intToRGBA(curr.getPixelColor(x, y));
+      if (Math.abs(p1.r - p2.r) > PIXEL_DIFF_THRESHOLD) changedPixels++;
     }
   }
 

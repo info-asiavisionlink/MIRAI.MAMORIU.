@@ -14,6 +14,10 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json({ limit: '20mb' }));
 
+app.get('/', (_, res) => {
+  res.json({ name: 'MIRAI.MAMORU API', version: '1.0.0', status: 'running' });
+});
+
 app.get('/api/health', (_, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
