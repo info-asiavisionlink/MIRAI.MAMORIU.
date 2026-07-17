@@ -5,7 +5,7 @@ const extra = (Constants.expoConfig?.extra ?? {}) as Record<string, string>;
 export const API_BASE_URL =
   extra.apiUrl ??
   process.env.EXPO_PUBLIC_API_URL ??
-  'http://localhost:3001';
+  'https://backend-eta-nine-98.vercel.app';
 
 export const DEFAULT_SETTINGS = {
   motionSensitivity: 0.04,
